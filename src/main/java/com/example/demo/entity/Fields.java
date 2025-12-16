@@ -5,5 +5,5 @@ public class Fields{
     private BigDecimal costPerUnit;
     private boolean active;
     private Timestamp createdAt;
-    private Timestamp updatedAt
+    private Timestamp updatedAt;
 }
