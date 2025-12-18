@@ -3,7 +3,14 @@ package com.example.demo.entity;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="ingredient")
 public class Ingredient {
+    @Id
     private long id;
     private String name;
     private String unit;
