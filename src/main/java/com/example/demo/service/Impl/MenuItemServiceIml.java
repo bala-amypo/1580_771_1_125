@@ -26,7 +26,7 @@ public class MenuItemServiceImpl implements MenuItemService {
     public MenuItem createMenuItem(MenuItem item) {
 
         if (item.getSellingPrice() == null ||
-            item.getSellingPrice().compareTo(BigDecimal.ZERO) <= 0) {
+                item.getSellingPrice().compareTo(BigDecimal.ZERO) <= 0) {
             throw new RuntimeException("Selling price must be greater than zero");
         }
 
@@ -35,14 +35,16 @@ public class MenuItemServiceImpl implements MenuItemService {
         }
 
         Set<Category> validatedCategories = new HashSet<>();
-        for (Category c : item.getCategories()) {
-            Category category = categoryRepository.findById(c.getId())
-                    .orElseThrow(() -> new RuntimeException("Category not found"));
+        if (item.getCategories() != null) {
+            for (Category c : item.getCategories()) {
+                Category category = categoryRepository.findById(c.getId())
+                        .orElseThrow(() -> new RuntimeException("Category not found"));
 
-            if (!category.isActive()) {
-                throw new RuntimeException("Inactive category cannot be assigned");
+                if (!category.isActive()) {
+                    throw new RuntimeException("Inactive category cannot be assigned");
+                }
+                validatedCategories.add(category);
             }
-            validatedCategories.add(category);
         }
 
         item.setCategories(validatedCategories);
