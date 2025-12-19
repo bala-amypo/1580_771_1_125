@@ -20,7 +20,7 @@ public class Category {
 
     private String description;
 
-    private boolean active = true;
+    private boolean active ;
 
     @ManyToMany(mappedBy = "categories")
     private Set<MenuItem> menuItems = new HashSet<>();
