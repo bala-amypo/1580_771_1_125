@@ -34,7 +34,7 @@ public class Ingredient {
     private BigDecimal costPerUnit;
 
     @Column(nullable = false)
-    private Boolean active = true;
+    private Boolean active;
 
     private Timestamp createdAt;
 
