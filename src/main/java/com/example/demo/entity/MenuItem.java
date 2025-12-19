@@ -25,6 +25,7 @@ public class MenuItem {
     @Column(nullable = false)
     private BigDecimal sellingPrice;
 
+    @Column(nullable = false)
     private boolean active = true;
 
     private LocalDateTime createdAt;
@@ -38,7 +39,8 @@ public class MenuItem {
     )
     private Set<Category> categories = new HashSet<>();
 
-    public MenuItem() {}
+    public MenuItem() {
+    }
 
     @PrePersist
     public void onCreate() {
@@ -65,5 +67,7 @@ public class MenuItem {
     public void setDescription(String description) { this.description = description; }
     public void setSellingPrice(BigDecimal sellingPrice) { this.sellingPrice = sellingPrice; }
     public void setActive(boolean active) { this.active = active; }
-    public void setCategories(Set<Category> categories) { this.categories = categories; }
+    public void setCategories(Set<Category> categories) {
+        this.categories = (categories == null) ? new HashSet<>() : categories;
+    }
 }

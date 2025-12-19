@@ -20,9 +20,10 @@ public class Category {
 
     private String description;
 
-    private boolean active ;
+    @Column(nullable = false)
+    private boolean active = true;
 
-    @ManyToMany(mappedBy = "categories")
+    @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
     private Set<MenuItem> menuItems = new HashSet<>();
 
     public Category() {
