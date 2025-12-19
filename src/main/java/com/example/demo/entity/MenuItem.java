@@ -30,7 +30,7 @@ public class MenuItem {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.Merge)
     @JoinTable(
         name = "menu_item_categories",
         joinColumns = @JoinColumn(name = "menu_item_id"),
