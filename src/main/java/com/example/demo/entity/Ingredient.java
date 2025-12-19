@@ -2,89 +2,66 @@ package com.example.demo.entity;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.Instant;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.DecimalMin;
 
 @Entity
-@Table(name="ingredient")
+@Table(name = "ingredients", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class Ingredient {
+
     @Id
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
     private String name;
+
+    @Column(nullable = false)
     private String unit;
+
+    @DecimalMin(value = "0.0", inclusive = false)
+    @Column(nullable = false)
     private BigDecimal costPerUnit;
-    private boolean active;
+
+    @Column(nullable = false)
+    private Boolean active = true;
+
     private Timestamp createdAt;
+
     private Timestamp updatedAt;
 
-    public Ingredient(){}
-
-    public Ingredient(boolean active, BigDecimal costPerUnit, Timestamp createdAt, long id, String name, String unit, Timestamp updatedAt) {
-        this.active = active;
-        this.costPerUnit = costPerUnit;
-        this.createdAt = createdAt;
-        this.id = id;
-        this.name = name;
-        this.unit = unit;
-        this.updatedAt = updatedAt;
+    @PrePersist
+    void onCreate() {
+        Timestamp now = Timestamp.from(Instant.now());
+        createdAt = now;
+        updatedAt = now;
     }
 
-    public long getId() {
-        return id;
+    @PreUpdate
+    void onUpdate() {
+        updatedAt = Timestamp.from(Instant.now());
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+public Long getId() { return id; }
+public String getName() { return name; }
+public void setName(String name) { this.name = name; }
+public String getUnit() { return unit; }
+public void setUnit(String unit) { this.unit = unit; }
+public BigDecimal getCostPerUnit() { return costPerUnit; }
+public void setCostPerUnit(BigDecimal costPerUnit) { this.costPerUnit = costPerUnit; }
+public Boolean getActive() { return active; }
+public void setActive(Boolean active) { this.active = active; }
+public Timestamp getCreatedAt() { return createdAt; }
+public Timestamp getUpdatedAt() { return updatedAt; }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public BigDecimal getCostPerUnit() {
-        return costPerUnit;
-    }
-
-    public void setCostPerUnit(BigDecimal costPerUnit) {
-        this.costPerUnit = costPerUnit;
-    }
-
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-    
 }
