@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(
@@ -14,7 +15,7 @@ public class MenuItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     private String description;
@@ -24,16 +25,22 @@ public class MenuItem {
 
     private boolean active;
 
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
     public MenuItem() {
         this.active = true;
     }
 
-    public MenuItem(Long id, String name, String description, BigDecimal sellingPrice, boolean active) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.sellingPrice = sellingPrice;
-        this.active = active;
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Long getId() { return id; }
@@ -41,6 +48,8 @@ public class MenuItem {
     public String getDescription() { return description; }
     public BigDecimal getSellingPrice() { return sellingPrice; }
     public boolean isActive() { return active; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
 
     public void setId(Long id) { this.id = id; }
     public void setName(String name) { this.name = name; }
