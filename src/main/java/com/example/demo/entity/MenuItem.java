@@ -29,7 +29,7 @@ public class MenuItem {
     @Column(nullable = false)
     private boolean active = true;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "menu_item_categories",
             joinColumns = @JoinColumn(name = "menu_item_id"),
@@ -38,10 +38,8 @@ public class MenuItem {
     @JsonIgnoreProperties({"menuItems", "description", "active"})
     private Set<Category> categories = new HashSet<>();
 
-    public MenuItem() {
-    }
+    public MenuItem() {}
 
-    // ---------- Getters ----------
     public Long getId() {
         return id;
     }
@@ -66,7 +64,6 @@ public class MenuItem {
         return categories;
     }
 
-    // ---------- Setters ----------
     public void setId(Long id) {
         this.id = id;
     }
