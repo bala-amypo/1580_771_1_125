@@ -3,7 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
+import Java.util.List;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -16,13 +18,13 @@ public class AuthController {
 
     // REGISTER USER (simple version, no JWT)
     @PostMapping("/register")
-    public User register(@RequestBody User user) {
+    public ResponseEntity<User> register(@RequestBody User user) {
         return userService.createUser(user);
     }
 
     // GET ALL USERS (optional)
     @GetMapping("/users")
-    public java.util.List<User> getAllUsers() {
+    public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 }
