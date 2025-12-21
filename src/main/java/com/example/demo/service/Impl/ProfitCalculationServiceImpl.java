@@ -31,13 +31,13 @@ public class ProfitCalculationServiceImpl implements ProfitCalculationService {
     public ProfitCalculationRecord calculateProfit(Long menuItemId) {
 
         MenuItem menuItem = menuItemRepository.findById(menuItemId)
-                .orElseThrow(() -> new RuntimeException("Menu item not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Menu item not found"));
 
         List<RecipeIngredient> recipeIngredients =
                 recipeIngredientRepository.findByMenuItemId(menuItemId);
 
         if (recipeIngredients.isEmpty()) {
-            throw new RuntimeException("No recipe ingredients found");
+            throw new ResourceNotFoundException("No recipe ingredients found");
         }
 
         BigDecimal totalCost = BigDecimal.ZERO;
@@ -45,7 +45,7 @@ public class ProfitCalculationServiceImpl implements ProfitCalculationService {
         for (RecipeIngredient ri : recipeIngredients) {
             Ingredient ingredient = ingredientRepository
                     .findById(ri.getIngredient().getId())
-                    .orElseThrow(() -> new RuntimeException("Ingredient not found"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Ingredient not found"));
 
             BigDecimal cost =
                     ingredient.getCostPerUnit()
@@ -68,7 +68,7 @@ public class ProfitCalculationServiceImpl implements ProfitCalculationService {
     @Override
     public ProfitCalculationRecord getCalculationById(Long id) {
         return recordRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Calculation record not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Calculation record not found"));
     }
 
     @Override

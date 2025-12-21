@@ -6,6 +6,8 @@ import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.MenuItemRepository;
 import com.example.demo.service.MenuItemService;
 import org.springframework.stereotype.Service;
+import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.ResourceNotFoundException;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -29,20 +31,20 @@ public class MenuItemServiceImpl implements MenuItemService {
 
         if (item.getSellingPrice() == null ||
                 item.getSellingPrice().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new RuntimeException("Selling price must be greater than zero");
+            throw new BadRequestException("Selling price must be greater than zero");
         }
 
         if (menuItemRepository.findByNameIgnoreCase(item.getName()).isPresent()) {
-            throw new RuntimeException("Menu item name already exists");
+            throw new BadRequestException("Menu item name already exists");
         }
 
         Set<Category> validatedCategories = new HashSet<>();
         for (Category c : item.getCategories()) {
             Category category = categoryRepository.findById(c.getId())
-                    .orElseThrow(() -> new RuntimeException("Category not found"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
             if (!category.isActive()) {
-                throw new RuntimeException("Inactive category cannot be assigned");
+                throw new BadRequestException("Inactive category cannot be assigned");
             }
             validatedCategories.add(category);
         }
@@ -65,7 +67,7 @@ public class MenuItemServiceImpl implements MenuItemService {
     @Override
     public MenuItem getMenuItemById(Long id) {
         return menuItemRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Menu item not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Menu item not found"));
     }
 
     @Override
