@@ -20,7 +20,7 @@ public class RecipeIngredientController {
 
     @PostMapping
     public ResponseEntity<RecipeIngredient> add(@RequestBody RecipeIngredient recipeIngredient) {
-        return ResponseEntityrecipeIngredientService.addIngredientToMenuItem(recipeIngredient);
+        return ResponseEntity.status(201).body(recipeIngredientService.addIngredientToMenuItem(recipeIngredient));
     }
 
     @PutMapping("/{id}")
@@ -41,7 +41,6 @@ public class RecipeIngredientController {
         return "Recipe ingredient removed successfully";
     }
 
-    // GET TOTAL QUANTITY OF INGREDIENT
     @GetMapping("/ingredient/{ingredientId}/total-quantity")
     public Double getTotalQuantity(@PathVariable Long ingredientId) {
         return recipeIngredientService.getTotalQuantityOfIngredient(ingredientId);
