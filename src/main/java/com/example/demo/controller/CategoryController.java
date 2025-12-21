@@ -1,8 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Category;
+import com.example.demo.entity.Category;
 import com.example.demo.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,18 +12,21 @@ import java.util.List;
 @RequestMapping("/api/categories")
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
+
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     @PostMapping
-    public Category createCategory(@RequestBody Category category) {
-        return categoryService.createCategory(category);
+    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+        return new ResponseEntity<>(categoryService.createCategory(category),
+                HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Category updateCategory(
-            @PathVariable Long id,
-            @RequestBody Category category) {
+    public Category updateCategory(@PathVariable Long id,
+                                   @RequestBody Category category) {
         return categoryService.updateCategory(id, category);
     }
 
@@ -37,8 +41,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}/deactivate")
-    public String deactivateCategory(@PathVariable Long id) {
+    public void deactivateCategory(@PathVariable Long id) {
         categoryService.deactivateCategory(id);
-        return "Category deactivated successfully";
     }
 }

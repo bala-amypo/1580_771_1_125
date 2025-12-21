@@ -1,13 +1,15 @@
-package com.example.demo.model;
+package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(
-    name = "categories",
-    uniqueConstraints = @UniqueConstraint(columnNames = "name")
+        name = "categories",
+        uniqueConstraints = @UniqueConstraint(columnNames = "name")
 )
 public class Category {
 
@@ -24,10 +26,12 @@ public class Category {
     private boolean active = true;
 
     @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<MenuItem> menuItems = new HashSet<>();
 
-    public Category() {
-    }
+    public Category() {}
+
+    /* getters & setters */
 
     public Long getId() { return id; }
     public String getName() { return name; }

@@ -1,8 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.MenuItem;
+import com.example.demo.entity.MenuItem;
 import com.example.demo.service.MenuItemService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,16 +12,20 @@ import java.util.List;
 @RequestMapping("/api/menu-items")
 public class MenuItemController {
 
-    @Autowired
-    private MenuItemService menuItemService;
+    private final MenuItemService menuItemService;
+
+    public MenuItemController(MenuItemService menuItemService) {
+        this.menuItemService = menuItemService;
+    }
 
     @PostMapping
-    public MenuItem createMenuItem(@RequestBody MenuItem item) {
-        return menuItemService.createMenuItem(item);
+    public ResponseEntity<MenuItem> createMenuItem(@RequestBody MenuItem item) {
+        return new ResponseEntity<>(menuItemService.createMenuItem(item), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public MenuItem updateMenuItem(@PathVariable Long id, @RequestBody MenuItem item) {
+    public MenuItem updateMenuItem(@PathVariable Long id,
+                                   @RequestBody MenuItem item) {
         return menuItemService.updateMenuItem(id, item);
     }
 
@@ -35,8 +40,7 @@ public class MenuItemController {
     }
 
     @PutMapping("/{id}/deactivate")
-    public String deactivateMenuItem(@PathVariable Long id) {
+    public void deactivateMenuItem(@PathVariable Long id) {
         menuItemService.deactivateMenuItem(id);
-        return "Menu item deactivated successfully";
     }
 }
