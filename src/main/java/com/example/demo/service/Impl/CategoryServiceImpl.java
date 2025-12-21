@@ -29,6 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category existing = getCategoryById(id);
         existing.setName(category.getName());
         existing.setDescription(category.getDescription());
+        existing.setActive(category.isActive());
         return categoryRepository.save(existing);
     }
 
