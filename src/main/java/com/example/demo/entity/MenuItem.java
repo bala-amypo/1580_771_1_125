@@ -1,15 +1,16 @@
-package com.example.demo.model;
+package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(
-    name = "menu_items",
-    uniqueConstraints = @UniqueConstraint(columnNames = "name")
+        name = "menu_items",
+        uniqueConstraints = @UniqueConstraint(columnNames = "name")
 )
 public class MenuItem {
 
@@ -28,46 +29,65 @@ public class MenuItem {
     @Column(nullable = false)
     private boolean active = true;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-        name = "menu_item_categories",
-        joinColumns = @JoinColumn(name = "menu_item_id"),
-        inverseJoinColumns = @JoinColumn(name = "category_id")
+            name = "menu_item_categories",
+            joinColumns = @JoinColumn(name = "menu_item_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
     )
+    @JsonIgnoreProperties({"menuItems", "description", "active"})
     private Set<Category> categories = new HashSet<>();
 
     public MenuItem() {
     }
 
-    @PrePersist
-    public void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+    // ---------- Getters ----------
+    public Long getId() {
+        return id;
     }
 
-    @PreUpdate
-    public void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
+    public String getName() {
+        return name;
     }
 
-    public Long getId() { return id; }
-    public String getName() { return name; }
-    public String getDescription() { return description; }
-    public BigDecimal getSellingPrice() { return sellingPrice; }
-    public boolean isActive() { return active; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public Set<Category> getCategories() { return categories; }
+    public String getDescription() {
+        return description;
+    }
 
-    public void setId(Long id) { this.id = id; }
-    public void setName(String name) { this.name = name; }
-    public void setDescription(String description) { this.description = description; }
-    public void setSellingPrice(BigDecimal sellingPrice) { this.sellingPrice = sellingPrice; }
-    public void setActive(boolean active) { this.active = active; }
+    public BigDecimal getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    // ---------- Setters ----------
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setSellingPrice(BigDecimal sellingPrice) {
+        this.sellingPrice = sellingPrice;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public void setCategories(Set<Category> categories) {
-        this.categories = (categories == null) ? new HashSet<>() : categories;
+        this.categories = categories;
     }
 }

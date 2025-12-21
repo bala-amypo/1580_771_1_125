@@ -23,11 +23,8 @@ public class MenuItemController {
         return new ResponseEntity<>(
             menuItemService.createMenuItem(item),
             HttpStatus.CREATED
-    );
-}
-
-}
-
+        );
+    }
 
     @PutMapping("/{id}")
     public MenuItem updateMenuItem(@PathVariable Long id,
