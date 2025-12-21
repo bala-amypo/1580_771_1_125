@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.example.demo.exception.ResourceNotFoundException;
+
 @Service
 public class ProfitCalculationServiceImpl implements ProfitCalculationService {
 

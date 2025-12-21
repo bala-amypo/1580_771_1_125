@@ -20,11 +20,11 @@ public class UserServiceImpl implements UserService {
     public User createUser(User user) {
 
         if (userRepository.findByEmailIgnoreCase(user.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already exists");
+            throw new BadRequestException("Email already exists");
         }
 
         if (userRepository.findByUsernameIgnoreCase(user.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already exists");
+            throw new BadRequestException("Username already exists");
         }
 
         return userRepository.save(user);
@@ -38,14 +38,14 @@ public class UserServiceImpl implements UserService {
         existing.setEmail(user.getEmail());
         existing.setPassword(user.getPassword());
         existing.setRole(user.getRole());
-
+        existing
         return userRepository.save(existing);
     }
 
     @Override
     public User getUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
     @Override

@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.ResourceNotFoundException;
+
 @Service
 public class RecipeIngredientServiceImpl implements RecipeIngredientService {
 
@@ -31,16 +34,16 @@ public class RecipeIngredientServiceImpl implements RecipeIngredientService {
     public RecipeIngredient addIngredientToMenuItem(RecipeIngredient recipeIngredient) {
 
         if (recipeIngredient.getQuantityRequired() <= 0) {
-            throw new RuntimeException("Quantity must be greater than zero");
+            throw new BadRequestException("Quantity must be greater than zero");
         }
 
         Ingredient ingredient = ingredientRepository.findById(
                 recipeIngredient.getIngredient().getId())
-                .orElseThrow(() -> new RuntimeException("Ingredient not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Ingredient not found"));
 
         MenuItem menuItem = menuItemRepository.findById(
                 recipeIngredient.getMenuItem().getId())
-                .orElseThrow(() -> new RuntimeException("Menu item not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Menu item not found"));
 
         recipeIngredient.setIngredient(ingredient);
         recipeIngredient.setMenuItem(menuItem);
@@ -52,11 +55,11 @@ public class RecipeIngredientServiceImpl implements RecipeIngredientService {
     public RecipeIngredient updateRecipeIngredient(Long id, Double quantity) {
 
         if (quantity <= 0) {
-            throw new RuntimeException("Quantity must be greater than zero");
+            throw new BadRequestException("Quantity must be greater than zero");
         }
 
         RecipeIngredient existing = recipeIngredientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Recipe ingredient not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Recipe ingredient not found"));
 
         existing.setQuantityRequired(quantity);
         return recipeIngredientRepository.save(existing);
@@ -70,7 +73,7 @@ public class RecipeIngredientServiceImpl implements RecipeIngredientService {
     @Override
     public void removeIngredientFromRecipe(Long id) {
         RecipeIngredient existing = recipeIngredientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Recipe ingredient not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Recipe ingredient not found"));
 
         recipeIngredientRepository.delete(existing);
     }
