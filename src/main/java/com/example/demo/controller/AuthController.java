@@ -5,7 +5,7 @@ import com.example.demo.service.UserService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
-import Java.util.List;
+import java.util.List;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -18,7 +18,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody User user) {
-        return Respo0nseEntity.status(201).body(userService.createUser(user));
+        return ResponseEntity.status(201).body(userService.createUser(user));
     }
 
     @GetMapping("/users")
