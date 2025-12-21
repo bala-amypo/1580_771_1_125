@@ -21,8 +21,24 @@ public class CategoryController {
         return categoryService.createCategory(category);
     }
 
+    @PutMapping("/{id}")
+    public Category update(@PathVariable Long id, @RequestBody Category category) {
+        return categoryService.updateCategory(id, category);
+    }
+
+    @GetMapping("/{id}")
+    public Category getById(@PathVariable Long id) {
+        return categoryService.getCategoryById(id);
+    }
+
     @GetMapping
     public List<Category> getAll() {
         return categoryService.getAllCategories();
+    }
+
+    @PutMapping("/{id}/deactivate")
+    public String deactivate(@PathVariable Long id) {
+        categoryService.deactivateCategory(id);
+        return "Category deactivated successfully";
     }
 }

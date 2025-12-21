@@ -33,7 +33,7 @@ public class MenuItemServiceImpl implements MenuItemService {
         }
 
         if (menuItemRepository.findByNameIgnoreCase(item.getName()).isPresent()) {
-            throw new RuntimeException("Menu item already exists");
+            throw new RuntimeException("Menu item name already exists");
         }
 
         Set<Category> validatedCategories = new HashSet<>();

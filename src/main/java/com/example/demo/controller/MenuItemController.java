@@ -21,8 +21,24 @@ public class MenuItemController {
         return menuItemService.createMenuItem(item);
     }
 
+    @PutMapping("/{id}")
+    public MenuItem update(@PathVariable Long id, @RequestBody MenuItem item) {
+        return menuItemService.updateMenuItem(id, item);
+    }
+
+    @GetMapping("/{id}")
+    public MenuItem getById(@PathVariable Long id) {
+        return menuItemService.getMenuItemById(id);
+    }
+
     @GetMapping
     public List<MenuItem> getAll() {
         return menuItemService.getAllMenuItems();
+    }
+
+    @PutMapping("/{id}/deactivate")
+    public String deactivate(@PathVariable Long id) {
+        menuItemService.deactivateMenuItem(id);
+        return "Menu item deactivated successfully";
     }
 }
