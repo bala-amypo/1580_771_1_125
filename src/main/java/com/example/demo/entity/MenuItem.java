@@ -1,10 +1,9 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +12,7 @@ import java.util.Set;
         name = "menu_items",
         uniqueConstraints = @UniqueConstraint(columnNames = "name")
 )
+@JsonIgnoreProperties({"createdAt", "updatedAt"})
 public class MenuItem {
 
     @Id
@@ -30,32 +30,20 @@ public class MenuItem {
     @Column(nullable = false)
     private boolean active = true;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "menu_item_categories",
             joinColumns = @JoinColumn(name = "menu_item_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    @JsonManagedReference
+    @JsonIgnoreProperties({"menuItems"})   // 🔥 KEY LINE
     private Set<Category> categories = new HashSet<>();
 
     public MenuItem() {}
 
-    @PrePersist
-    public void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
+    // getters & setters (same as before)
+}
 
-    @PreUpdate
-    public void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    /* getters & setters */
 
     public Long getId() { return id; }
     public String getName() { return name; }
