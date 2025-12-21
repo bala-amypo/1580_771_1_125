@@ -16,13 +16,11 @@ public class AuthController {
         this.userService = userService;
     }
 
-    // REGISTER USER (simple version, no JWT)
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody User user) {
-        return userService.createUser(user);
+        return Respo0nseEntity.status(201).body(userService.createUser(user));
     }
 
-    // GET ALL USERS (optional)
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
