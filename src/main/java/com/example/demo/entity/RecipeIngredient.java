@@ -21,8 +21,19 @@ public class RecipeIngredient {
     @Column(nullable = false)
     private Double quantityRequired;
 
+    // ✅ Default constructor
     public RecipeIngredient() {}
 
+    // ✅ Parameterized constructor
+    public RecipeIngredient(Long id, MenuItem menuItem,
+                            Ingredient ingredient, Double quantityRequired) {
+        this.id = id;
+        this.menuItem = menuItem;
+        this.ingredient = ingredient;
+        this.quantityRequired = quantityRequired;
+    }
+
+    // Getters & Setters
     public Long getId() { return id; }
     public MenuItem getMenuItem() { return menuItem; }
     public Ingredient getIngredient() { return ingredient; }
@@ -31,5 +42,7 @@ public class RecipeIngredient {
     public void setId(Long id) { this.id = id; }
     public void setMenuItem(MenuItem menuItem) { this.menuItem = menuItem; }
     public void setIngredient(Ingredient ingredient) { this.ingredient = ingredient; }
-    public void setQuantityRequired(Double quantityRequired) { this.quantityRequired = quantityRequired; }
+    public void setQuantityRequired(Double quantityRequired) {
+        this.quantityRequired = quantityRequired;
+    }
 }
