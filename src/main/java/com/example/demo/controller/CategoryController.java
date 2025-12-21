@@ -18,13 +18,15 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
-        return new ResponseEntity<>(categoryService.createCategory(category),
-                HttpStatus.CREATED);
+        return new ResponseEntity<>(
+                categoryService.createCategory(category),
+                HttpStatus.CREATED
+        );
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = "application/json")
     public Category updateCategory(@PathVariable Long id,
                                    @RequestBody Category category) {
         return categoryService.updateCategory(id, category);

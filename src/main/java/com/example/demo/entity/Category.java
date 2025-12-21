@@ -1,6 +1,6 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -26,18 +26,15 @@ public class Category {
     private boolean active = true;
 
     @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonIgnore   // 🔥 THIS LINE FIXES SWAGGER ISSUE
     private Set<MenuItem> menuItems = new HashSet<>();
 
     public Category() {}
-
-    /* getters & setters */
 
     public Long getId() { return id; }
     public String getName() { return name; }
     public String getDescription() { return description; }
     public boolean isActive() { return active; }
-    public Set<MenuItem> getMenuItems() { return menuItems; }
 
     public void setId(Long id) { this.id = id; }
     public void setName(String name) { this.name = name; }

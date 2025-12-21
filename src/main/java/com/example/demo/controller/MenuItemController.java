@@ -18,10 +18,14 @@ public class MenuItemController {
         this.menuItemService = menuItemService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<MenuItem> createMenuItem(@RequestBody MenuItem item) {
-        return new ResponseEntity<>(menuItemService.createMenuItem(item), HttpStatus.CREATED);
-    }
+        return new ResponseEntity<>(
+            menuItemService.createMenuItem(item),
+            HttpStatus.CREATED
+    );
+}
+
 
     @PutMapping("/{id}")
     public MenuItem updateMenuItem(@PathVariable Long id,
