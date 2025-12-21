@@ -19,7 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category createCategory(Category category) {
         if (categoryRepository.findByNameIgnoreCase(category.getName()).isPresent()) {
-            throw new RuntimeException("Category name already exists");
+            throw new BadRequestException("Category name already exists");
         }
         return categoryRepository.save(category);
     }
@@ -36,7 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getCategoryById(Long id) {
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
     }
 
     @Override
