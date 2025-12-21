@@ -26,7 +26,8 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private String role;
+    private String role = "MANAGER";
+
 
     @Column(nullable = false)
     private boolean active = true;
