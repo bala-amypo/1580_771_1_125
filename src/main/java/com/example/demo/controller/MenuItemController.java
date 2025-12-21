@@ -26,6 +26,8 @@ public class MenuItemController {
     );
 }
 
+}
+
 
     @PutMapping("/{id}")
     public MenuItem updateMenuItem(@PathVariable Long id,

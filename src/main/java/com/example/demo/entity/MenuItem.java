@@ -1,18 +1,16 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(
-        name = "menu_items",
-        uniqueConstraints = @UniqueConstraint(columnNames = "name")
+    name = "menu_items",
+    uniqueConstraints = @UniqueConstraint(columnNames = "name")
 )
-@JsonIgnoreProperties({"createdAt", "updatedAt"})
 public class MenuItem {
 
     @Id
@@ -30,26 +28,38 @@ public class MenuItem {
     @Column(nullable = false)
     private boolean active = true;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
-            name = "menu_item_categories",
-            joinColumns = @JoinColumn(name = "menu_item_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
+        name = "menu_item_categories",
+        joinColumns = @JoinColumn(name = "menu_item_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    @JsonIgnoreProperties({"menuItems"})   // 🔥 KEY LINE
     private Set<Category> categories = new HashSet<>();
 
-    public MenuItem() {}
+    public MenuItem() {
+    }
 
-    // getters & setters (same as before)
-}
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
 
+    @PreUpdate
+    public void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 
     public Long getId() { return id; }
     public String getName() { return name; }
     public String getDescription() { return description; }
     public BigDecimal getSellingPrice() { return sellingPrice; }
     public boolean isActive() { return active; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
     public Set<Category> getCategories() { return categories; }
 
     public void setId(Long id) { this.id = id; }
