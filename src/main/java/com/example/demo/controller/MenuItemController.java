@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.entity.MenuItem;
 import com.example.demo.service.MenuItemService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+
 
 import java.util.List;
 
@@ -17,8 +19,8 @@ public class MenuItemController {
     }
 
     @PostMapping
-    public MenuItem create(@RequestBody MenuItem item) {
-        return menuItemService.createMenuItem(item);
+    public ResponseEntity<MenuItem> create(@RequestBody MenuItem item) {
+        return ResponseEntity.status(201).body(menuItemService.createMenuItem(item));
     }
 
     @PutMapping("/{id}")
