@@ -60,7 +60,7 @@ public class MenuItemServiceImpl implements MenuItemService {
         existing.setName(item.getName());
         existing.setDescription(item.getDescription());
         existing.setSellingPrice(item.getSellingPrice());
-
+        existing.setActive(item.isActive());
         return menuItemRepository.save(existing);
     }
 
