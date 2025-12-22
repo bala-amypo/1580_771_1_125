@@ -32,10 +32,8 @@ public class User {
     @Column(nullable = false)
     private boolean active = true;
 
-    // Default constructor
     public User() {}
 
-    // Parameterized constructor
     public User(Long id, String username, String email,
                 String password, String role, boolean active) {
         this.id = id;
@@ -46,7 +44,6 @@ public class User {
         this.active = active;
     }
 
-    // Getters & Setters
     public Long getId() { return id; }
     public String getUsername() { return username; }
     public String getEmail() { return email; }

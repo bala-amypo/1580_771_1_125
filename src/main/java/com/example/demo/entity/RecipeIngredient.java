@@ -21,10 +21,8 @@ public class RecipeIngredient {
     @Column(nullable = false)
     private Double quantityRequired;
 
-    // ✅ Default constructor
     public RecipeIngredient() {}
 
-    // ✅ Parameterized constructor
     public RecipeIngredient(Long id, MenuItem menuItem,
                             Ingredient ingredient, Double quantityRequired) {
         this.id = id;
@@ -33,7 +31,6 @@ public class RecipeIngredient {
         this.quantityRequired = quantityRequired;
     }
 
-    // Getters & Setters
     public Long getId() { return id; }
     public MenuItem getMenuItem() { return menuItem; }
     public Ingredient getIngredient() { return ingredient; }

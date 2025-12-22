@@ -26,10 +26,8 @@ public class ProfitCalculationRecord {
     @Column(nullable = false)
     private LocalDateTime calculatedAt;
 
-    // ✅ Default constructor
     public ProfitCalculationRecord() {}
 
-    // ✅ Parameterized constructor
     public ProfitCalculationRecord(Long id, MenuItem menuItem,
                                    BigDecimal totalCost, BigDecimal profit,
                                    LocalDateTime calculatedAt) {
@@ -45,7 +43,6 @@ public class ProfitCalculationRecord {
         this.calculatedAt = LocalDateTime.now();
     }
 
-    // Getters & Setters
     public Long getId() { return id; }
     public MenuItem getMenuItem() { return menuItem; }
     public BigDecimal getTotalCost() { return totalCost; }
