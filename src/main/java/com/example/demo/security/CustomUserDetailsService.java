@@ -5,7 +5,8 @@ import com.example.demo.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 import java.util.List;
-
+import org.springframework.stereotype.Service;
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
