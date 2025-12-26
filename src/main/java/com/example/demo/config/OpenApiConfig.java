@@ -37,11 +37,6 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .info(new Info()
-                        .title("Demo API")
-                        .version("1.0")
-                        .description("Carbon Footprint Estimator REST API")
-                )
                 .servers(List.of(
                         new Server().url("https://9104.pro604cr.amypo.ai")
                 ))
@@ -52,9 +47,6 @@ public class OpenApiConfig {
                                         .scheme("bearer")
                                         .bearerFormat("JWT")
                         )
-                )
-                .addSecurityItem(
-                        new SecurityRequirement().addList("bearerAuth")
                 );
     }
 }
