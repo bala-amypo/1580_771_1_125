@@ -1,15 +1,13 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.Category;
-import com.example.demo.repository.CategoryRepository;
-import com.example.demo.service.CategoryService;
-import org.springframework.stereotype.Service;
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repository.CategoryRepository;
+import com.example.demo.service.CategoryService;
 
 import java.util.List;
 
-@Service
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
@@ -20,18 +18,20 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category createCategory(Category category) {
-        if (categoryRepository.findByNameIgnoreCase(category.getName()).isPresent()) {
-            throw new BadRequestException("Category name already exists");
-        }
+        categoryRepository.findByNameIgnoreCase(category.getName())
+                .ifPresent(c -> {
+                    throw new BadRequestException("Category name already exists");
+                });
+
+        category.setActive(true);
         return categoryRepository.save(category);
     }
 
     @Override
-    public Category updateCategory(Long id, Category category) {
+    public Category updateCategory(Long id, Category updated) {
         Category existing = getCategoryById(id);
-        existing.setName(category.getName());
-        existing.setDescription(category.getDescription());
-        existing.setActive(category.isActive());
+        existing.setName(updated.getName());
+        existing.setDescription(updated.getDescription());
         return categoryRepository.save(existing);
     }
 
