@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/profits")
-public class ProfitController {
+public class ProfitCalculationController {
 
     private final ProfitCalculationService service;
 
-    public ProfitController(ProfitCalculationService service) {
+    public ProfitCalculationController(ProfitCalculationService service) {
         this.service = service;
     }
 
