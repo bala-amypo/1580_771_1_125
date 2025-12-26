@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "recipe_ingredients")
 public class RecipeIngredient {
 
     @Id
@@ -10,44 +11,47 @@ public class RecipeIngredient {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "menuitem_id")
     private MenuItem menuItem;
 
     @ManyToOne
+    @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
 
-    private Double quantityRequired;
+    @Column(nullable = false)
+    private Double quantity;
 
-    // ---------- getters & setters ----------
+    // Getters & Setters
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public MenuItem getMenuItem() {
         return menuItem;
     }
 
-    public void setMenuItem(MenuItem menuItem) {
-        this.menuItem = menuItem;
-    }
-
     public Ingredient getIngredient() {
         return ingredient;
+    }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setMenuItem(MenuItem menuItem) {
+        this.menuItem = menuItem;
     }
 
     public void setIngredient(Ingredient ingredient) {
         this.ingredient = ingredient;
     }
 
-    public Double getQuantityRequired() {
-        return quantityRequired;
-    }
-
-    public void setQuantityRequired(Double quantityRequired) {
-        this.quantityRequired = quantityRequired;
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 }

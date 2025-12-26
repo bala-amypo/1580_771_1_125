@@ -2,56 +2,87 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ingredients", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "name")
-})
+@Table(name = "ingredients")
 public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
 
-    @Column(nullable = false)
     private String unit;
 
     @Column(nullable = false)
     private BigDecimal costPerUnit;
 
-    @Column(nullable = false)
     private Boolean active = true;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
-    @Column(nullable = false)
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    @PrePersist
+    protected void onCreate() {
+        createdAt = new Timestamp(System.currentTimeMillis());
+        updatedAt = createdAt;
+    }
 
-    // Getters and Setters
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = new Timestamp(System.currentTimeMillis());
+    }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // Getters & Setters
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getUnit() { return unit; }
-    public void setUnit(String unit) { this.unit = unit; }
+    public String getName() {
+        return name;
+    }
 
-    public BigDecimal getCostPerUnit() { return costPerUnit; }
-    public void setCostPerUnit(BigDecimal costPerUnit) { this.costPerUnit = costPerUnit; }
+    public String getUnit() {
+        return unit;
+    }
 
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public BigDecimal getCostPerUnit() {
+        return costPerUnit;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public Boolean getActive() {
+        return active;
+    }
 
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public void setCostPerUnit(BigDecimal costPerUnit) {
+        this.costPerUnit = costPerUnit;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }
