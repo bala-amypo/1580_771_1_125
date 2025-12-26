@@ -11,9 +11,9 @@ public class Category {
 
     private String name;
 
-    private boolean active = true;
+    private String description;
 
-    // ===== getters & setters =====
+    // ---------- getters & setters ----------
 
     public Long getId() {
         return id;
@@ -31,16 +31,11 @@ public class Category {
         this.name = name;
     }
 
-    // IMPORTANT: test expects getActive()
-    public boolean getActive() {
-        return active;
+    public String getDescription() {
+        return description;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

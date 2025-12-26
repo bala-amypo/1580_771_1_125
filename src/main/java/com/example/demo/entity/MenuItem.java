@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class MenuItem {
@@ -10,14 +12,20 @@ public class MenuItem {
     private Long id;
 
     private String name;
-    private double price;
 
-    private boolean active = true;
+    private Double sellingPrice;
 
-    @ManyToOne
-    private Category category;
+    private String description;
 
-    // ===== getters & setters =====
+    @ManyToMany
+    @JoinTable(
+        name = "menu_item_category",
+        joinColumns = @JoinColumn(name = "menu_item_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories = new HashSet<>();
+
+    // ---------- getters & setters ----------
 
     public Long getId() {
         return id;
@@ -35,32 +43,27 @@ public class MenuItem {
         this.name = name;
     }
 
-    public double getPrice() {
-        return price;
+    public Double getSellingPrice() {
+        return sellingPrice;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setSellingPrice(Double sellingPrice) {
+        this.sellingPrice = sellingPrice;
     }
 
-    // IMPORTANT: test expects getActive()
-    public boolean getActive() {
-        return active;
+    public String getDescription() {
+        return description;
     }
 
-    public boolean isActive() {
-        return active;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public Set<Category> getCategories() {
+        return categories;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 }
