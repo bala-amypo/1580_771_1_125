@@ -12,10 +12,6 @@ public interface RecipeIngredientRepository extends JpaRepository<RecipeIngredie
 
     boolean existsByMenuItemId(Long menuItemId);
 
-    @Query("""
-           SELECT SUM(ri.quantityRequired)
-           FROM RecipeIngredient ri
-           WHERE ri.ingredient.id = :ingredientId
-           """)
+    @Query("SELECT SUM(ri.quantityRequired) FROM RecipeIngredient ri WHERE ri.ingredient.id = :ingredientId")
     Double getTotalQuantityByIngredientId(Long ingredientId);
 }

@@ -5,10 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(
-    name = "categories",
-    uniqueConstraints = @UniqueConstraint(columnNames = "name")
-)
+@Table(name = "categories", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "name")
+})
 public class Category {
 
     @Id
@@ -18,15 +17,16 @@ public class Category {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Column
     private String description;
 
     @Column(nullable = false)
-    private boolean active = true;
+    private Boolean active = true;
 
     @ManyToMany(mappedBy = "categories")
     private Set<MenuItem> menuItems = new HashSet<>();
 
-    // Getters & Setters
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -36,8 +36,8 @@ public class Category {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public boolean isActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 
     public Set<MenuItem> getMenuItems() { return menuItems; }
     public void setMenuItems(Set<MenuItem> menuItems) { this.menuItems = menuItems; }

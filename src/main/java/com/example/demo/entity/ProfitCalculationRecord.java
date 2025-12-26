@@ -16,21 +16,16 @@ public class ProfitCalculationRecord {
     @JoinColumn(name = "menu_item_id")
     private MenuItem menuItem;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false)
     private BigDecimal totalCost;
 
     @Column(nullable = false)
-    private Double profitMargin;
+    private BigDecimal profitMargin;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime calculatedAt;
+    private LocalDateTime calculatedAt = LocalDateTime.now();
 
-    @PrePersist
-    void onCalculate() {
-        this.calculatedAt = LocalDateTime.now();
-    }
-
-    // Getters & Setters
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -40,8 +35,9 @@ public class ProfitCalculationRecord {
     public BigDecimal getTotalCost() { return totalCost; }
     public void setTotalCost(BigDecimal totalCost) { this.totalCost = totalCost; }
 
-    public Double getProfitMargin() { return profitMargin; }
-    public void setProfitMargin(Double profitMargin) { this.profitMargin = profitMargin; }
+    public BigDecimal getProfitMargin() { return profitMargin; }
+    public void setProfitMargin(BigDecimal profitMargin) { this.profitMargin = profitMargin; }
 
     public LocalDateTime getCalculatedAt() { return calculatedAt; }
+    public void setCalculatedAt(LocalDateTime calculatedAt) { this.calculatedAt = calculatedAt; }
 }
