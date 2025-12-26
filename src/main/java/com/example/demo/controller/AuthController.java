@@ -3,26 +3,36 @@ package com.example.demo.controller;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+
 @RestController
-@RequestMapping("/api/auth")
-public class AuthController {
+@RequestMapping("/users")
+public class UserController {
 
-    private final UserService userService;
+    private final UserService service;
 
-    public AuthController(UserService userService) {
-        this.userService = userService;
+    public UserController(UserService service) {
+        this.service = service;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
-        return ResponseEntity.status(201).body(userService.createUser(user));
+    @PostMapping
+    public User create(@RequestBody User user) {
+        return service.create(user);
     }
 
-    @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    @GetMapping
+    public List<User> getAll() {
+        return service.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public User get(@PathVariable Long id) {
+        return service.getById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
     }
 }
