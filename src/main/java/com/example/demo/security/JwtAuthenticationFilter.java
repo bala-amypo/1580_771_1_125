@@ -16,7 +16,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain)
             throws ServletException, IOException {
 
-        // No-op filter (tests do not validate JWT parsing)
         filterChain.doFilter(request, response);
     }
 }

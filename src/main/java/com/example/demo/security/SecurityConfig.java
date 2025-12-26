@@ -24,7 +24,6 @@ public class SecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
-    // ✅ REQUIRED so AuthController can inject it
     @Bean
     public JwtTokenProvider jwtTokenProvider() {
         return new JwtTokenProvider("secret-key", 3600000);
@@ -36,7 +35,6 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                // ✅ PUBLIC ENDPOINTS
                 .requestMatchers(
                         "/auth/**",
                         "/hello-servlet",
@@ -44,7 +42,6 @@ public class SecurityConfig {
                         "/v3/api-docs/**"
                 ).permitAll()
 
-                // 🔒 PROTECTED ENDPOINTS
                 .anyRequest().authenticated()
             )
             .addFilterBefore(

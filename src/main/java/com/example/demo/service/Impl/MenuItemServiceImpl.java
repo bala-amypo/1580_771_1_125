@@ -19,7 +19,6 @@ public class MenuItemServiceImpl implements MenuItemService {
     private final RecipeIngredientRepository recipeIngredientRepository;
     private final CategoryRepository categoryRepository;
 
-    // ✅ Constructor order EXACT
     public MenuItemServiceImpl(MenuItemRepository menuItemRepository,
                                RecipeIngredientRepository recipeIngredientRepository,
                                CategoryRepository categoryRepository) {

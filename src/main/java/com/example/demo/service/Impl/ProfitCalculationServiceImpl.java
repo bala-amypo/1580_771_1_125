@@ -15,7 +15,6 @@ public class ProfitCalculationServiceImpl {
     private final IngredientRepository ingredientRepository;
     private final ProfitCalculationRecordRepository recordRepository;
 
-    // ✅ Constructor order EXACT
     public ProfitCalculationServiceImpl(
             MenuItemRepository menuItemRepository,
             RecipeIngredientRepository recipeIngredientRepository,
@@ -72,7 +71,6 @@ public class ProfitCalculationServiceImpl {
         return recordRepository.findAll();
     }
 
-    // 🔍 Used by HQL / Criteria tests
     public List<ProfitCalculationRecord> findRecordsWithMarginBetween(Double min, Double max) {
         return recordRepository.findAll();
     }

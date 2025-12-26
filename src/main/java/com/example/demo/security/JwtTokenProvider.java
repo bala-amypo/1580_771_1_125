@@ -13,7 +13,6 @@ public class JwtTokenProvider {
         this.validityInMs = validityInMs;
     }
 
-    // 🔑 TESTS MOCK THIS METHOD DIRECTLY
     public String generateToken(Authentication authentication, User user) {
         return "dummy-token";
     }
