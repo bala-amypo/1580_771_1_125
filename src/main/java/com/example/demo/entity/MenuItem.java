@@ -55,7 +55,7 @@ public class MenuItem {
     public BigDecimal getSellingPrice() { return sellingPrice; }
     public void setSellingPrice(BigDecimal sellingPrice) { this.sellingPrice = sellingPrice; }
 
-    public Boolean getActive() { return active; }
+    public Boolean isActive() { return active; }
     public void setActive(Boolean active) { this.active = active; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
