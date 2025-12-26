@@ -23,24 +23,26 @@ public class IngredientController {
         return new ResponseEntity<>(ingredientService.createIngredient(ingredient), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Ingredient> getIngredientById(@PathVariable Long id) {
-        return ResponseEntity.ok(ingredientService.getIngredientById(id));
-    }
-
     @GetMapping
     public ResponseEntity<List<Ingredient>> getAllIngredients() {
         return ResponseEntity.ok(ingredientService.getAllIngredients());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Ingredient> getIngredient(@PathVariable Long id) {
+        return ResponseEntity.ok(ingredientService.getIngredientById(id));
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Ingredient> updateIngredient(@PathVariable Long id, @RequestBody Ingredient ingredient) {
+    public ResponseEntity<Ingredient> updateIngredient(
+            @PathVariable Long id,
+            @RequestBody Ingredient ingredient) {
         return ResponseEntity.ok(ingredientService.updateIngredient(id, ingredient));
     }
 
     @PutMapping("/{id}/deactivate")
     public ResponseEntity<Void> deactivateIngredient(@PathVariable Long id) {
         ingredientService.deactivateIngredient(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 }
