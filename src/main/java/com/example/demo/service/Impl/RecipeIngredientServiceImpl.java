@@ -9,20 +9,20 @@ import com.example.demo.repository.IngredientRepository;
 import com.example.demo.repository.MenuItemRepository;
 import com.example.demo.repository.RecipeIngredientRepository;
 import com.example.demo.service.RecipeIngredientService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class RecipeIngredientServiceImpl implements RecipeIngredientService {
 
     private final RecipeIngredientRepository recipeIngredientRepository;
     private final IngredientRepository ingredientRepository;
     private final MenuItemRepository menuItemRepository;
 
-    public RecipeIngredientServiceImpl(
-            RecipeIngredientRepository recipeIngredientRepository,
-            IngredientRepository ingredientRepository,
-            MenuItemRepository menuItemRepository
-    ) {
+    public RecipeIngredientServiceImpl(RecipeIngredientRepository recipeIngredientRepository,
+                                       IngredientRepository ingredientRepository,
+                                       MenuItemRepository menuItemRepository) {
         this.recipeIngredientRepository = recipeIngredientRepository;
         this.ingredientRepository = ingredientRepository;
         this.menuItemRepository = menuItemRepository;
@@ -30,32 +30,27 @@ public class RecipeIngredientServiceImpl implements RecipeIngredientService {
 
     @Override
     public RecipeIngredient addIngredientToMenuItem(RecipeIngredient ri) {
-        Ingredient ingredient = ingredientRepository.findById(
-                ri.getIngredient().getId())
+        MenuItem menuItem = menuItemRepository.findById(ri.getMenuItem().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Menu item not found"));
+        Ingredient ingredient = ingredientRepository.findById(ri.getIngredient().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Ingredient not found"));
 
-        MenuItem menuItem = menuItemRepository.findById(
-                ri.getMenuItem().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Menu item not found"));
-
-        if (ri.getQuantityRequired() == null || ri.getQuantityRequired() <= 0) {
-            throw new BadRequestException("Invalid recipe ingredient quantity");
+        if (ri.getQuantityRequired() <= 0) {
+            throw new BadRequestException("Quantity must be greater than 0");
         }
 
-        ri.setIngredient(ingredient);
         ri.setMenuItem(menuItem);
+        ri.setIngredient(ingredient);
         return recipeIngredientRepository.save(ri);
     }
 
     @Override
     public RecipeIngredient updateRecipeIngredient(Long id, Double quantity) {
-        if (quantity == null || quantity <= 0) {
-            throw new BadRequestException("Invalid recipe ingredient quantity");
-        }
-
         RecipeIngredient ri = recipeIngredientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Recipe ingredient not found"));
-
+        if (quantity <= 0) {
+            throw new BadRequestException("Quantity must be greater than 0");
+        }
         ri.setQuantityRequired(quantity);
         return recipeIngredientRepository.save(ri);
     }

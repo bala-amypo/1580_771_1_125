@@ -6,32 +6,31 @@ import com.example.demo.exception.BadRequestException;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository,
-                           PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public User register(RegisterRequest request) {
-        userRepository.findByEmailIgnoreCase(request.getEmail())
-                .ifPresent(u -> {
-                    throw new BadRequestException("Email already in use");
-                });
+        if (userRepository.findByEmailIgnoreCase(request.getEmail()).isPresent()) {
+            throw new BadRequestException("Email already in use");
+        }
 
         User user = new User();
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
-        user.setRole(
-                request.getRole() != null ? request.getRole() : "USER"
-        );
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(request.getRole() != null ? request.getRole() : "USER");
+        user.setActive(true);
 
         return userRepository.save(user);
     }
@@ -39,6 +38,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByEmailIgnoreCase(String email) {
         return userRepository.findByEmailIgnoreCase(email)
-                .orElse(null);
+                .orElseThrow(() -> new BadRequestException("User not found"));
     }
 }
