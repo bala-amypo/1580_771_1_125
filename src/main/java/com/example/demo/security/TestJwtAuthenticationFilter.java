@@ -5,20 +5,20 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.junit.jupiter.api.*;
 import org.mockito.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.testng.annotations.*;
 
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.testng.Assert.*;
 
-class TestJwtAuthenticationFilter {
+public class TestJwtAuthenticationFilter {
 
     private static final String SECRET = "secret-key";
 
@@ -36,20 +36,20 @@ class TestJwtAuthenticationFilter {
 
     private JwtAuthenticationFilter filter;
 
-    @BeforeEach
-    void setup() {
+    @BeforeMethod
+    public void setup() {
         MockitoAnnotations.openMocks(this);
-        filter = new JwtAuthenticationFilter(userDetailsService, SECRET);
         SecurityContextHolder.clearContext();
+        filter = new JwtAuthenticationFilter(userDetailsService, SECRET);
     }
 
-    @AfterEach
-    void cleanup() {
+    @AfterMethod
+    public void cleanup() {
         SecurityContextHolder.clearContext();
     }
 
     @Test
-    void shouldAuthenticateUserWhenValidTokenProvided() throws Exception {
+    public void shouldAuthenticateUserWhenValidTokenProvided() throws Exception {
         // Arrange
         String email = "test@example.com";
 
@@ -60,8 +60,7 @@ class TestJwtAuthenticationFilter {
                 .signWith(SignatureAlgorithm.HS256, SECRET)
                 .compact();
 
-        when(request.getHeader("Authorization"))
-                .thenReturn("Bearer " + token);
+        when(request.getHeader("Authorization")).thenReturn("Bearer " + token);
 
         UserDetails userDetails = new User(
                 email,
@@ -76,11 +75,9 @@ class TestJwtAuthenticationFilter {
         filter.doFilterInternal(request, response, filterChain);
 
         // Assert
-        Authentication auth =
-                SecurityContextHolder.getContext().getAuthentication();
-
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         assertNotNull(auth);
-        assertEquals(email, auth.getName());
+        assertEquals(auth.getName(), email);
         assertTrue(auth.isAuthenticated());
 
         verify(userDetailsService).loadUserByUsername(email);
@@ -88,43 +85,32 @@ class TestJwtAuthenticationFilter {
     }
 
     @Test
-    void shouldNotAuthenticateWhenTokenIsMissing() throws Exception {
-        // Arrange
+    public void shouldNotAuthenticateWhenTokenIsMissing() throws Exception {
         when(request.getHeader("Authorization")).thenReturn(null);
 
-        // Act
         filter.doFilterInternal(request, response, filterChain);
 
-        // Assert
         assertNull(SecurityContextHolder.getContext().getAuthentication());
         verify(filterChain).doFilter(request, response);
         verifyNoInteractions(userDetailsService);
     }
 
     @Test
-    void shouldNotAuthenticateWhenTokenIsInvalid() throws Exception {
-        // Arrange
-        when(request.getHeader("Authorization"))
-                .thenReturn("Bearer invalid.jwt.token");
+    public void shouldNotAuthenticateWhenTokenIsInvalid() throws Exception {
+        when(request.getHeader("Authorization")).thenReturn("Bearer invalid.jwt.token");
 
-        // Act
         filter.doFilterInternal(request, response, filterChain);
 
-        // Assert
         assertNull(SecurityContextHolder.getContext().getAuthentication());
         verify(filterChain).doFilter(request, response);
     }
 
     @Test
-    void shouldIgnoreHeaderWithoutBearerPrefix() throws Exception {
-        // Arrange
-        when(request.getHeader("Authorization"))
-                .thenReturn("Basic abc123");
+    public void shouldIgnoreHeaderWithoutBearerPrefix() throws Exception {
+        when(request.getHeader("Authorization")).thenReturn("Basic abc123");
 
-        // Act
         filter.doFilterInternal(request, response, filterChain);
 
-        // Assert
         assertNull(SecurityContextHolder.getContext().getAuthentication());
         verify(filterChain).doFilter(request, response);
     }
