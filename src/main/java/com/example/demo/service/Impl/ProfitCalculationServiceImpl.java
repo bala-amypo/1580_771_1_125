@@ -4,10 +4,10 @@ import com.example.demo.entity.*;
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.*;
-
+import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
-
+@Service
 public class ProfitCalculationServiceImpl {
 
     private final MenuItemRepository menuItemRepository;

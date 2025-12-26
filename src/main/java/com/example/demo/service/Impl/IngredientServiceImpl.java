@@ -8,7 +8,7 @@ import com.example.demo.service.IngredientService;
 
 import java.math.BigDecimal;
 import java.util.List;
-
+@Service
 public class IngredientServiceImpl implements IngredientService {
 
     private final IngredientRepository ingredientRepository;

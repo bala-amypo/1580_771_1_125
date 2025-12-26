@@ -7,9 +7,10 @@ import com.example.demo.repository.IngredientRepository;
 import com.example.demo.repository.MenuItemRepository;
 import com.example.demo.repository.RecipeIngredientRepository;
 import com.example.demo.service.RecipeIngredientService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class RecipeIngredientServiceImpl implements RecipeIngredientService {
 
     private final RecipeIngredientRepository recipeIngredientRepository;
