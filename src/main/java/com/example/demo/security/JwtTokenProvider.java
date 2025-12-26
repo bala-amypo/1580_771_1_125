@@ -1,47 +1,37 @@
-package com.example.demo.security;
-
-import com.example.demo.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
-
+import io.jsonwebtoken.security.Keys;
+import java.security.Key;
 import java.util.Date;
 
-@Component
 public class JwtTokenProvider {
 
-    private final String secret = "mySecretKey"; // Replace with secure key
-    private final long validityInMs = 3600000; // 1 hour
+    private final Key key;
+    private final long validityInMs;
 
-    public String generateToken(User user) {
+    public JwtTokenProvider(String secret, long validityInMs) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+        this.validityInMs = validityInMs;
+    }
+
+    public String generateToken(String email) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + validityInMs);
 
         return Jwts.builder()
-                .setSubject(user.getEmail())
-                .claim("role", user.getRole())
+                .setSubject(email)
                 .setIssuedAt(now)
                 .setExpiration(expiry)
-                .signWith(SignatureAlgorithm.HS512, secret)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public String getEmailFromToken(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(secret)
+    public Claims parseToken(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
-        return claims.getSubject();
-    }
-
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
     }
 }
