@@ -1,72 +1,46 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
-@Table(
-    name = "categories",
-    uniqueConstraints = @UniqueConstraint(columnNames = "name")
-)
 public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
     private String name;
 
-    private String description;
+    private boolean active = true;
 
-    @Column(nullable = false)
-    private Boolean active = true;
-
-    @ManyToMany(mappedBy = "categories")
-    private Set<MenuItem> menuItems = new HashSet<>();
-
-    /* ===================== GETTERS ===================== */
+    // ===== getters & setters =====
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public Boolean isActive() {
-        return active != null && active;
-    }
-
-    public Set<MenuItem> getMenuItems() {
-        return menuItems;
-    }
-
-    /* ===================== SETTERS ===================== */
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    // IMPORTANT: test expects getActive()
+    public boolean getActive() {
+        return active;
     }
 
-    public void setActive(Boolean active) {
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
         this.active = active;
-    }
-
-    public void setMenuItems(Set<MenuItem> menuItems) {
-        this.menuItems = menuItems;
     }
 }

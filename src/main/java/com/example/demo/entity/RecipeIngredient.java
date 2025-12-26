@@ -3,34 +3,30 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "recipe_ingredients")
 public class RecipeIngredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "menu_item_id")
-    private MenuItem menuItem;
+    private double quantity;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "ingredient_id")
-    private Ingredient ingredient;
+    // ===== getters & setters =====
 
-    @Column(nullable = false)
-    private Double quantityRequired;
+    public Long getId() {
+        return id;
+    }
 
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public MenuItem getMenuItem() { return menuItem; }
-    public void setMenuItem(MenuItem menuItem) { this.menuItem = menuItem; }
+    public double getQuantity() {
+        return quantity;
+    }
 
-    public Ingredient getIngredient() { return ingredient; }
-    public void setIngredient(Ingredient ingredient) { this.ingredient = ingredient; }
-
-    public Double getQuantityRequired() { return quantityRequired; }
-    public void setQuantityRequired(Double quantityRequired) { this.quantityRequired = quantityRequired; }
+    // IMPORTANT: test expects setQuantity(double)
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
 }

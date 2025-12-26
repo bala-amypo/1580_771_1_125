@@ -1,115 +1,66 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
-@Table(
-    name = "menu_items",
-    uniqueConstraints = @UniqueConstraint(columnNames = "name")
-)
 public class MenuItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
     private String name;
+    private double price;
 
-    private String description;
+    private boolean active = true;
 
-    @Column(nullable = false)
-    private BigDecimal sellingPrice;
+    @ManyToOne
+    private Category category;
 
-    @Column(nullable = false)
-    private Boolean active = true;
-
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
-    @ManyToMany
-    @JoinTable(
-        name = "menu_item_categories",
-        joinColumns = @JoinColumn(name = "menu_item_id"),
-        inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    private Set<Category> categories = new HashSet<>();
-
-    /* ===================== LIFECYCLE ===================== */
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    /* ===================== GETTERS ===================== */
+    // ===== getters & setters =====
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public BigDecimal getSellingPrice() {
-        return sellingPrice;
-    }
-
-    public Boolean isActive() {
-        return active != null && active;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public Set<Category> getCategories() {
-        return categories;
-    }
-
-    /* ===================== SETTERS ===================== */
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public double getPrice() {
+        return price;
     }
 
-    public void setSellingPrice(BigDecimal sellingPrice) {
-        this.sellingPrice = sellingPrice;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public void setActive(Boolean active) {
+    // IMPORTANT: test expects getActive()
+    public boolean getActive() {
+        return active;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
         this.active = active;
     }
 
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
