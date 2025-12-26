@@ -65,7 +65,6 @@
     <artifactId>mysql-connector-j</artifactId>
     <version>9.5.0</version>
 </dependency>
-    </dependencies>
 <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
 <dependency>
     <groupId>io.jsonwebtoken</groupId>
@@ -86,6 +85,7 @@
     <version>0.13.0</version>
     <scope>runtime</scope>
 </dependency>
+</dependencies>
 	<build>
 		<plugins>
 			<plugin>
