@@ -2,42 +2,45 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Category;
 import com.example.demo.service.CategoryService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/api/categories")
 public class CategoryController {
 
-    private final CategoryService service;
+    private final CategoryService categoryService;
 
-    public CategoryController(CategoryService service) {
-        this.service = service;
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     @PostMapping
-    public Category create(@RequestBody Category category) {
-        return service.create(category);
-    }
-
-    @GetMapping
-    public List<Category> getAll() {
-        return service.getAll();
+    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+        return new ResponseEntity<>(categoryService.createCategory(category), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public Category get(@PathVariable Long id) {
-        return service.getById(id);
+    public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
+        return ResponseEntity.ok(categoryService.getCategoryById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Category>> getAllCategories() {
+        return ResponseEntity.ok(categoryService.getAllCategories());
     }
 
     @PutMapping("/{id}")
-    public Category update(@PathVariable Long id, @RequestBody Category category) {
-        return service.update(id, category);
+    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category category) {
+        return ResponseEntity.ok(categoryService.updateCategory(id, category));
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
+    @PutMapping("/{id}/deactivate")
+    public ResponseEntity<Void> deactivateCategory(@PathVariable Long id) {
+        categoryService.deactivateCategory(id);
+        return ResponseEntity.noContent().build();
     }
 }
