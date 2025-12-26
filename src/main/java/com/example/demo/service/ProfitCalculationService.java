@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.ProfitCalculationRecord;
-
 import java.util.List;
 
 public interface ProfitCalculationService {
@@ -13,4 +12,6 @@ public interface ProfitCalculationService {
     List<ProfitCalculationRecord> getCalculationsForMenuItem(Long menuItemId);
 
     List<ProfitCalculationRecord> getAllCalculations();
+
+    List<ProfitCalculationRecord> findRecordsWithMarginBetween(Double min, Double max);
 }
