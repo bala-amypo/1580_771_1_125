@@ -38,16 +38,17 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
 
-        Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(), request.getPassword())
-        );
+    Authentication auth = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                    request.getEmail(), request.getPassword())
+    );
 
-        User user = userService
-                .register(null); // overridden by mock in tests
+    User user = userService.findByEmail(request.getEmail());
 
-        String token = jwtTokenProvider.generateToken(auth, user);
+    String token = jwtTokenProvider.generateToken(auth, user);
 
-        return ResponseEntity.ok(new AuthResponse(token));
-    }
+    return ResponseEntity.ok(new AuthResponse(token));
+}
+
+    
 }
