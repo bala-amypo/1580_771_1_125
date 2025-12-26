@@ -22,7 +22,7 @@ public class Category {
     @ManyToMany(mappedBy = "categories")
     private Set<MenuItem> menuItems = new HashSet<>();
 
-    // Getters & Setters
+    // ===== Getters & Setters =====
 
     public Long getId() {
         return id;
@@ -30,6 +30,10 @@ public class Category {
 
     public String getName() {
         return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public Boolean getActive() {
@@ -46,6 +50,10 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setActive(Boolean active) {
