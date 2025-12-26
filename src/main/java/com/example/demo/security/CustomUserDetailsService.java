@@ -30,3 +30,4 @@ public class CustomUserDetailsService implements UserDetailsService {
         );
     }
 }
+http://localhost:9001/swagger-ui/index.html
