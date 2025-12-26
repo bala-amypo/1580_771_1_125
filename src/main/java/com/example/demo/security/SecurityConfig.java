@@ -20,27 +20,31 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+            AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
     }
 
-    // ✅ ADD THIS
+    // ✅ REQUIRED so AuthController can inject it
     @Bean
     public JwtTokenProvider jwtTokenProvider() {
         return new JwtTokenProvider("secret-key", 3600000);
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.csrf(csrf -> csrf.disable())
+        http
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
+                // ✅ PUBLIC ENDPOINTS
                 .requestMatchers(
                         "/auth/**",
                         "/hello-servlet",
                         "/swagger-ui/**",
                         "/v3/api-docs/**"
                 ).permitAll()
+
+                // 🔒 PROTECTED ENDPOINTS
                 .anyRequest().authenticated()
             )
             .addFilterBefore(
