@@ -21,8 +21,6 @@ public class RecipeIngredient {
     @Column(nullable = false)
     private Double quantity;
 
-    // Getters & Setters
-
     public Long getId() {
         return id;
     }
