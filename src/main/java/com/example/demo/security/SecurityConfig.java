@@ -24,6 +24,12 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
+    // ✅ ADD THIS
+    @Bean
+    public JwtTokenProvider jwtTokenProvider() {
+        return new JwtTokenProvider("secret-key", 3600000);
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
