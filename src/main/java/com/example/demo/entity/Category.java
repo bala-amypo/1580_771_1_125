@@ -5,9 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "categories", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "name")
-})
+@Table(
+    name = "categories",
+    uniqueConstraints = @UniqueConstraint(columnNames = "name")
+)
 public class Category {
 
     @Id
@@ -17,7 +18,6 @@ public class Category {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column
     private String description;
 
     @Column(nullable = false)
@@ -26,19 +26,47 @@ public class Category {
     @ManyToMany(mappedBy = "categories")
     private Set<MenuItem> menuItems = new HashSet<>();
 
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    /* ===================== GETTERS ===================== */
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public String getName() {
+        return name;
+    }
 
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public String getDescription() {
+        return description;
+    }
 
-    public Set<MenuItem> getMenuItems() { return menuItems; }
-    public void setMenuItems(Set<MenuItem> menuItems) { this.menuItems = menuItems; }
+    public Boolean isActive() {
+        return active != null && active;
+    }
+
+    public Set<MenuItem> getMenuItems() {
+        return menuItems;
+    }
+
+    /* ===================== SETTERS ===================== */
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public void setMenuItems(Set<MenuItem> menuItems) {
+        this.menuItems = menuItems;
+    }
 }
