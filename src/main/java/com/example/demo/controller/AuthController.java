@@ -6,10 +6,12 @@ import com.example.demo.dto.RegisterRequest;
 import com.example.demo.entity.User;
 import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.UserService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;   // ✅ MISSING IMPORT FIXED
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,21 +37,24 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest) {
-    Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())
-    );
 
-    User user = userService.findByEmailIgnoreCase(authRequest.getEmail());
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        authRequest.getEmail(),
+                        authRequest.getPassword()
+                )
+        );
 
-    String token = jwtTokenProvider.generateToken(user.getEmail()); // Pass email, not User object
+        User user = userService.findByEmailIgnoreCase(authRequest.getEmail());
 
-    AuthResponse response = new AuthResponse();
-    response.setToken(token);
-    response.setEmail(user.getEmail());
-    response.setRole(user.getRole());
-    response.setId(user.getId());
+        String token = jwtTokenProvider.generateToken(user.getEmail());
 
-    return ResponseEntity.ok(response);
-}
+        AuthResponse response = new AuthResponse();
+        response.setToken(token);
+        response.setEmail(user.getEmail());
+        response.setRole(user.getRole());
+        response.setId(user.getId());
 
+        return ResponseEntity.ok(response);
+    }
 }
