@@ -29,8 +29,6 @@ public class User {
         createdAt = new Timestamp(System.currentTimeMillis());
     }
 
-    // Getters & Setters
-
     public Long getId() {
         return id;
     }
