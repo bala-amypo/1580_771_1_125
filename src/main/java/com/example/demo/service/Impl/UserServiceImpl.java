@@ -13,7 +13,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // ✅ Constructor order EXACT
     public UserServiceImpl(UserRepository userRepository,
                            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -36,4 +35,9 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.save(user);
     }
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmailIgnoreCase(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+    }   
 }
