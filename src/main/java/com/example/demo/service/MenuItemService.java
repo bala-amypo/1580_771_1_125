@@ -1,17 +1,17 @@
-package com.example.demo.service;
+// package com.example.demo.service;
 
-import com.example.demo.entity.MenuItem;
-import java.util.List;
+// import com.example.demo.entity.MenuItem;
+// import java.util.List;
 
-public interface MenuItemService {
+// public interface MenuItemService {
 
-    MenuItem createMenuItem(MenuItem item);
+//     MenuItem createMenuItem(MenuItem item);
 
-    MenuItem updateMenuItem(Long id, MenuItem item);
+//     MenuItem updateMenuItem(Long id, MenuItem item);
 
-    MenuItem getMenuItemById(Long id);
+//     MenuItem getMenuItemById(Long id);
 
-    List<MenuItem> getAllMenuItems();
+//     List<MenuItem> getAllMenuItems();
 
-    void deactivateMenuItem(Long id);
-}
+//     void deactivateMenuItem(Long id);
+// }

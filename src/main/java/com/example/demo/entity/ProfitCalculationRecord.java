@@ -1,65 +1,65 @@
-package com.example.demo.entity;
+// package com.example.demo.entity;
 
-import jakarta.persistence.*;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
+// import jakarta.persistence.*;
+// import java.math.BigDecimal;
+// import java.sql.Timestamp;
 
-@Entity
-@Table(name = "profit_calculation_records")
-public class ProfitCalculationRecord {
+// @Entity
+// @Table(name = "profit_calculation_records")
+// public class ProfitCalculationRecord {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//     @Id
+//     @GeneratedValue(strategy = GenerationType.IDENTITY)
+//     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "menuitem_id")
-    private MenuItem menuItem;
+//     @ManyToOne
+//     @JoinColumn(name = "menuitem_id")
+//     private MenuItem menuItem;
 
-    private BigDecimal totalCost;
+//     private BigDecimal totalCost;
 
-    private BigDecimal profitMargin;
+//     private BigDecimal profitMargin;
 
-    private Timestamp calculatedAt;
+//     private Timestamp calculatedAt;
 
-    @PrePersist
-    protected void onCreate() {
-        calculatedAt = new Timestamp(System.currentTimeMillis());
-    }
+//     @PrePersist
+//     protected void onCreate() {
+//         calculatedAt = new Timestamp(System.currentTimeMillis());
+//     }
 
-    public Long getId() {
-        return id;
-    }
+//     public Long getId() {
+//         return id;
+//     }
 
-    public MenuItem getMenuItem() {
-        return menuItem;
-    }
+//     public MenuItem getMenuItem() {
+//         return menuItem;
+//     }
 
-    public BigDecimal getTotalCost() {
-        return totalCost;
-    }
+//     public BigDecimal getTotalCost() {
+//         return totalCost;
+//     }
 
-    public BigDecimal getProfitMargin() {
-        return profitMargin;
-    }
+//     public BigDecimal getProfitMargin() {
+//         return profitMargin;
+//     }
 
-    public Timestamp getCalculatedAt() {
-        return calculatedAt;
-    }
+//     public Timestamp getCalculatedAt() {
+//         return calculatedAt;
+//     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+//     public void setId(Long id) {
+//         this.id = id;
+//     }
 
-    public void setMenuItem(MenuItem menuItem) {
-        this.menuItem = menuItem;
-    }
+//     public void setMenuItem(MenuItem menuItem) {
+//         this.menuItem = menuItem;
+//     }
 
-    public void setTotalCost(BigDecimal totalCost) {
-        this.totalCost = totalCost;
-    }
+//     public void setTotalCost(BigDecimal totalCost) {
+//         this.totalCost = totalCost;
+//     }
 
-    public void setProfitMargin(BigDecimal profitMargin) {
-        this.profitMargin = profitMargin;
-    }
-}
+//     public void setProfitMargin(BigDecimal profitMargin) {
+//         this.profitMargin = profitMargin;
+//     }
+// }
