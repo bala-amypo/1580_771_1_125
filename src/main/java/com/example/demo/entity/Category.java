@@ -88,7 +88,6 @@ public class Category {
     @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
     private Set<MenuItem> menuItems = new HashSet<>();
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
