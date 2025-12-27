@@ -118,6 +118,9 @@ public class User {
         if (role == null || role.isEmpty()) {
             role = "MANAGER";
         }
+        if (active == null) {
+            active = true;
+        }
     }
 
     // Getters and Setters
