@@ -147,7 +147,7 @@ public class ProfitCalculationServiceImpl implements ProfitCalculationService {
         ProfitCalculationRecord record = new ProfitCalculationRecord();
         record.setMenuItem(menuItem);
         record.setTotalCost(totalCost);
-        record.setProfitMargin(profitMargin);
+        record.setProfitMargin(profit);
         
         return profitCalculationRecordRepository.save(record);
     }
