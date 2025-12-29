@@ -77,7 +77,6 @@ public class RecipeIngredient {
     @Column(nullable = false)
     private Double quantityRequired;
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -110,7 +109,6 @@ public class RecipeIngredient {
         this.quantityRequired = quantityRequired;
     }
 
-    // Alias for quantityRequired for compatibility
     public Double getQuantity() {
         return quantityRequired;
     }

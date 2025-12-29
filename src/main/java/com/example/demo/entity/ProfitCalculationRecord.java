@@ -16,7 +16,7 @@
 //     @JoinColumn(name = "menuitem_id")
 //     private MenuItem menuItem;
 
-// @ManyToOne(fetch = FetchType.LAZY)
+    // @ManyToOne(fetch = FetchType.LAZY)
     // @JoinColumn(name = "menu_item_id", nullable = false)
     // private MenuItem menuItem;
 
