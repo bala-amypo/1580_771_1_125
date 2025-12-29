@@ -87,7 +87,7 @@ public class Category {
     private Boolean active = true;
 
     @ManyToMany(mappedBy = "categories")
-    @JsonIgnore   // ✅ BREAKS INFINITE LOOP
+    @JsonIgnore 
     private Set<MenuItem> menuItems = new HashSet<>();
 
     public Long getId() {

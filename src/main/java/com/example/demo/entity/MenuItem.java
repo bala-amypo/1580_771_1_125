@@ -133,7 +133,6 @@ public class MenuItem {
     )
     private Set<Category> categories = new HashSet<>();
 
-    // getters and setters
     public Long getId() {
         return id;
     }
