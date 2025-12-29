@@ -148,7 +148,6 @@ public class MenuItemServiceImpl implements MenuItemService {
             throw new BadRequestException("Selling price must be greater than 0");
         }
         
-        // Validate categories
         if (menuItem.getCategories() != null && !menuItem.getCategories().isEmpty()) {
             Set<Category> validCategories = new HashSet<>();
             for (Category category : menuItem.getCategories()) {
@@ -175,7 +174,6 @@ public class MenuItemServiceImpl implements MenuItemService {
             throw new BadRequestException("Selling price must be greater than 0");
         }
         
-        // Check if trying to activate without recipe ingredients
         if (menuItem.getActive() != null && menuItem.getActive() && !recipeIngredientRepository.existsByMenuItemId(id)) {
             throw new BadRequestException("Cannot activate menu item without recipe ingredients");
         }
@@ -199,7 +197,6 @@ public class MenuItemServiceImpl implements MenuItemService {
             existing.setActive(menuItem.getActive());
         }
         
-        // Update categories
         if (menuItem.getCategories() != null) {
             Set<Category> validCategories = new HashSet<>();
             for (Category category : menuItem.getCategories()) {
