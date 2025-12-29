@@ -40,17 +40,15 @@ public class JwtTokenProvider {
     private final long validityInMs;
     private final Key key;
 
-    // Constructor with parameters for testing
     public JwtTokenProvider(String secret, long validityInMs) {
         this.secret = secret;
         this.validityInMs = validityInMs;
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    // Default constructor for Spring
     public JwtTokenProvider() {
         this.secret = "mySecretKeyForJWTTokenGenerationThatIsLongEnoughForHS256Algorithm";
-        this.validityInMs = 3600000; // 1 hour
+        this.validityInMs = 3600000; 
         this.key = Keys.hmacShaKeyFor(this.secret.getBytes());
     }
 
