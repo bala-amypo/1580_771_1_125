@@ -78,9 +78,13 @@ public class ProfitCalculationRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "menu_item_id", nullable = false)
+    // private MenuItem menuItem;
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "menu_item_id", nullable = false)
     private MenuItem menuItem;
+
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal totalCost;
